@@ -2,49 +2,49 @@ import "./App.css";
 import React, { useCallback, useEffect, useState } from "react";
 
 // Define the shape of a Todo item
+// we can't predict what the API will return, so we have to define the shape of the data we expect
+
 type Todo = {
   id: number;
   title: string;
 };
 
-// Define the URL for fetching Todos
-const API_URL: string = `https://jsonplaceholder.typicode.com/todos`;
+const API_URL: string = `https://jsonplaceholder.typicode.com/tods`;
 
 export default function AsyncApp() {
-  // Define the state variables for storing the fetched Todos, loading status, and error messages
+  // API states
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   // Define the getTodos function to fetch the Todos from the API
-  // useCallback is used to prevent the function from being recreated on every render, optimizing performance
+
   // Use async/await for cleaner, more readable code when dealing with Promises
+
+  // useCallback is used to prevent the function from being recreated on every render, optimizing performance
   const getTodos = useCallback(async () => {
     setIsLoading(true);
 
     try {
-      // Use the fetch API to make the request
       const response = await fetch(API_URL);
-      console.log("response", response);
 
-      // Check if the HTTP status code is 200 (OK) before processing the response
-      if (response.status === 200) {
+      // Check if the HTTP status code is in the 200s range (all good in the hood)
+      if (response.ok) {
         // Await the response JSON data and store it in finalData
         const finalData: Todo[] = await response.json();
         console.log("final data", finalData);
 
-        // Update the state with the fetched Todos
         setTodos(finalData);
       } else {
-        // If the status code is not 200, throw an error with the status code and status text
+        // If we had an issue with the api call, throw an error
         throw new Error(
           `HTTP error: ${response.status} ${response.statusText}`
         );
       }
     } catch (error) {
-      // If an error occurs, update the error state and log it to the console
+      // If any error occurs (this will also catch the above http error but is not limited to just that), update the error state and log it to the console
       setError(error.message);
-      console.log("error:", error);
+      console.log("error in getTodos", error);
     } finally {
       // Set the loading state to false once the fetch is complete (regardless of success or failure)
       setIsLoading(false);
@@ -57,7 +57,6 @@ export default function AsyncApp() {
     getTodos();
   }, [getTodos]);
 
-  // Render the component UI
   return (
     <main>
       React ⚛️ + Vite ⚡ + Replit 🌀
