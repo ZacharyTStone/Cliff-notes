@@ -9,13 +9,14 @@ type Todo = {
   title: string;
 };
 
-const API_URL: string = `https://jsonplaceholder.typicode.com/tods`;
+const API_URL: string = `https://jsonplaceholder.typicode.com/todos`;
 
 export default function AsyncApp() {
   // API states
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
 
   // Define the getTodos function to fetch the Todos from the API
 
@@ -31,7 +32,7 @@ export default function AsyncApp() {
       // Check if the HTTP status code is in the 200s range (all good in the hood)
       if (response.ok) {
         // Await the response JSON data and store it in finalData
-        const finalData: Todo[] = await response.json();
+        const finalData: any[] = await response.json();
         console.log("final data", finalData);
 
         setTodos(finalData);
@@ -62,6 +63,12 @@ export default function AsyncApp() {
       React ⚛️ + Vite ⚡ + Replit 🌀
       <div>
         <h1>ToDos</h1>
+        <input
+          type="input"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search for a todo"
+        />
         {isLoading ? (
           <h1>Loading...</h1>
         ) : error ? (
