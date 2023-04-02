@@ -75,12 +75,21 @@ export default function AsyncApp() {
           <h1>Error: {error}</h1>
         ) : (
           // If not loading and no errors, display the fetched Todos
-          todos?.map((todo) => (
-            <div key={todo.id}>
-              <h1>todo # {todo.id}</h1>
-              <h5>{todo.title}</h5>
-            </div>
-          ))
+          todos
+            ?.filter((todo) => {
+              if (!search) return true;
+              else {
+                return todo?.title
+                  ?.toLowerCase()
+                  ?.includes(search?.toLowerCase());
+              }
+            })
+            .map((todo) => (
+              <div key={todo.id}>
+                <h1>todo # {todo.id}</h1>
+                <h5>{todo.title}</h5>
+              </div>
+            ))
         )}
       </div>
     </main>

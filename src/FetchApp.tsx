@@ -25,6 +25,7 @@ export default function FetchApp() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [search, setSearch] = useState<string>("");
 
   // Define the getTodos function to fetch the Todos from the API
   // useCallback is used to prevent the function from being recreated on every render, optimizing performance
@@ -62,18 +63,33 @@ export default function FetchApp() {
       React ⚛️ + Vite ⚡ + Replit 🌀
       <div>
         <h1>ToDos</h1>
+        <input
+          type="input"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search for a todo"
+        />
         {isLoading ? (
           <h1>Loading...</h1>
         ) : error ? (
           <h1>Error: {error}</h1>
         ) : (
           // If not loading and no errors, display the fetched Todos
-          todos?.map((todo) => (
-            <div key={todo.id}>
-              <h1>todo # {todo.id}</h1>
-              <h5>{todo.title}</h5>
-            </div>
-          ))
+          todos
+            ?.filter((todo) => {
+              if (!search) return true;
+              else {
+                return todo?.title
+                  ?.toLowerCase()
+                  ?.includes(search?.toLowerCase());
+              }
+            })
+            .map((todo) => (
+              <div key={todo.id}>
+                <h1>todo # {todo.id}</h1>
+                <h5>{todo.title}</h5>
+              </div>
+            ))
         )}
       </div>
     </main>
