@@ -4,6 +4,7 @@ import "./index.css";
 import FetchApp from "./FetchApp.tsx";
 import AsycnApp from "./AsyncApp.tsx";
 import CliffAsyncApp from "./CliffAsyncApp";
+import CliffApp from "./CliffApp";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -12,7 +13,8 @@ root.render(
     <>
       {/* <FetchApp /> */}
       {/* <AsycnApp /> */}
-      <CliffAsyncApp />
+      {/* <CliffAsyncApp /> */}
+      <CliffApp />
     </>
   </React.StrictMode>
 );
