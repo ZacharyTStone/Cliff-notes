@@ -40,6 +40,10 @@ const CliffAsyncApp = () => {
     return todos?.filter((todo) => {
       if (!debouncedSearchTerm) {
         return true;
+      } else {
+        return todo?.title
+          ?.toLowerCase()
+          .includes(debouncedSearchTerm.toLowerCase());
       }
     });
   }, [debouncedSearchTerm, todos]);
