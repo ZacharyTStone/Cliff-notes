@@ -43,7 +43,7 @@ const CliffAsyncApp = () => {
       } else {
         return todo?.title
           ?.toLowerCase()
-          .includes(debouncedSearchTerm.toLowerCase());
+          .includes(debouncedSearchTerm?.toLowerCase());
       }
     });
   }, [debouncedSearchTerm, todos]);
